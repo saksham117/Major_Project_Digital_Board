@@ -2,8 +2,6 @@
 
 We are here to make your digital classroom experience as seamless as possible. Our tools make it simple to manage and submit your assignments, view and share study material and resources, keep a track of your pending tasks and help you make most of your remote learning experience.
 
-Here is the link to the website: [Digital Board](https://digitalboard.herokuapp.com/)
-
 
 **Note:** As it's uploaded on a free tier service, the initial get request to the website might be slow. The subsequent requests will be pretty fast!   
 

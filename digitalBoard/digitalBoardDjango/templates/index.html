@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+{% load static %}
+{% load socialaccount %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Board</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+        {% if user.is_staff %}
+            {% include "./header.html" %}
+        {% else %}
+            {% include "./headerStudent.html" %}
+        {% endif %}
+    {% else %}
+        {% include "./headerSignedOut.html" %}
+    {% endif %}
+    
+    <section class="banner">
+        <div class="container">
+          <div class="banner-text">
+            <h1>Learn & Grow</h1>
+            <p><strong>We are here to make your digital classroom experience as seamless as possible.</strong> Our tools make it simple to manage and submit your assignments, view and share study material and resources, keep a track of your pending tasks and help you make most of your remote learning experience</p>
+            <a href="{% provider_login_url 'google' %}">
+                <button>Login With Google</button>
+            </a>
+          </div>
+        </div>
+        <img class="banner-image" src="https://preview.ibb.co/bMi5Y6/banner_img.png" alt="monitoring" >
+      </section>
+      
+      <div class="container">
+        <div class="row">
+          <div class="mb-30 col-md-6 col-lg-4">
+            <div class="card" style = "min-height: 284.8px;">
+            <img class="card-icon" src="{% static 'images/home/document.png' %}" alt="monitoring" >
+            <h3 class="card-title">Submitting Assignments</h3>
+            <p class="card-text">Teachers can easily upload assignments, set deadlines and assign them to students. The students too can view & submit these assignments and add comments if necessary.</p>
+            <!-- <a class="card-link" href="#">Learn more</a> -->
+            </div>
+          </div>
+          <div class="mb-30 col-md-6 col-lg-4">
+            <div class="card" style = "min-height: 284.8px;">
+            <img class="card-icon" src="{% static 'images/home/classroom.png' %}" alt="monitoring" >
+            <h3 class="card-title">Sharing Study Material</h3>
+            <p class="card-text">Not only can the teachers upload assignments, but can also share study material and resources so that the students can better understand the matter.</p>
+            <!-- <a class="card-link" href="#">Learn more</a> --> 
+            </div>
+          </div>
+          <div class="mb-30 col-md-6 col-lg-4">
+            <div class="card" style = "min-height: 284.8px;">
+            <img class="card-icon" src="{% static 'images/home/to-do-list.png' %}" alt="monitoring" >
+            <h3 class="card-title">To Do List</h3>
+            <p class="card-text">Digital Board offers students a to-do list so that they can easily keep a track of what all tasks have been done, and what all tasks have been assigned.</p>
+            <!-- <a class="card-link" href="#">Learn more</a> -->
+            </div>
+          </div>
+          <div class="mb-30 col-md-6 col-lg-4">
+            <div class="card" style = "min-height: 284.8px;">
+            <img class="card-icon" src="{% static 'images/home/push_pin.png' %}" alt="snapshots" >
+            <h3 class="card-title">Pin Important Resources</h3>
+            <p class="card-text">Teachers can pin important resources at the very start, so that the students don't find it difficult to navigate to them at the time of need.</p>
+            <!-- <a class="card-link" href="#">Learn more</a> -->
+            </div>
+          </div>
+          <div class="mb-30 col-md-6 col-lg-4">
+            <div class="card" style = "min-height: 284.8px;">
+            <img class="card-icon" src="{% static 'images/home/google.png' %}" alt="monitoring" >
+            <h3 class="card-title">Login via Google</h3>
+            <p class="card-text">By providing easy login and logout capability via Social Accounts, we have removed the hassle of remembering another set of login credentials.</p>
+            <!-- <a class="card-link" href="#">Learn more</a> -->
+            </div>
+          </div>
+          <div class="mb-30 col-md-6 col-lg-4">
+            <div class="card" style = "min-height: 284.8px;">
+            <img class="card-icon" src="{% static 'images/home/phone.png' %}" alt="monitoring" >
+            <h3 class="card-title">Mobile Friendly View</h3>
+            <p class="card-text">No desktop?<br> No worries! We got you covered. Although developed as a desktop-first application, Digital Board is fully responsive and will work on screens of all sizes.</p>
+            <!-- <a class="card-link" href="#">Learn more</a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    {% include "./footer.html" %}
+
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+      
+</body>
+</html>

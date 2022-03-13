@@ -1,0 +1,79 @@
+{% comment %} will display all the videos for a particular class {% endcomment %}
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lectures</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/messages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/assignments.css' %}">
+
+
+</head>
+<body>
+    {% if user.is_staff %}
+        {% include "./classroomHeaderTeacher.html" %}
+    {% else %}
+        {% include "./classroomHeaderStudent.html" %}
+    {% endif %}
+        
+    <!-- {% if messages %}
+                {% for message in messages %}
+                <div class="success-message">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{message}}
+                </div>
+                {% endfor %}
+    {% endif %} -->
+
+    <!-- <object style="height: 390px; width: 640px"><param name="movie" value="http://www.youtube.com/v/v1gTI4BOPUw?version=3"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><embed src="http://www.youtube.com/v/v1gTI4BOPUw?version=3" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="640" height="390"></object> -->
+
+
+        <div class="container" style="margin-top:5%;">
+            <div class="row">
+                {% if videos %}
+                    {% for video in videos %}
+                        
+                            <div class="mb-30 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-icon" src="{% static 'images/classroom/video.png' %}" alt="monitoring" >
+                                    <h3 class="card-title">{{ video.title }}</h3> 
+                                    <p class="card-text">
+                                        {{ video.description }} <br>
+                                    </p>
+
+                                    
+                                    <a href="{% url 'video' class.classTeacherMail video.videoCode %}">
+                                        <button type="button" class="btn btn-info submissionButton">Watch Tutorial</button>
+                                    </a> 
+                                </div>
+                            </div>
+                    {% endfor %}
+
+                {% endif %}
+              
+            </div>
+        </div>
+
+
+
+
+
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+</body>
+</html>

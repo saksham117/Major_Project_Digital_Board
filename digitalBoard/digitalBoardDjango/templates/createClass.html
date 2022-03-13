@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+{% load socialaccount %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Class</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/style.css' %}">
+
+</head>
+<body>
+    {% if user.is_staff %}
+        {% include "./header.html" %}
+    {% else %}
+        {% include "./headerStudent.html" %}
+    {% endif %}
+        <main>
+            <figure>
+                <picture>
+                    <img src="https://img.freepik.com/free-vector/happy-women-learning-language-online-isolated-flat-vector-illustration-cartoon-female-characters-taking-individual-lessons-through-messenger-education-digital-technology-concept_74855-10088.jpg?size=626&ext=jpg" alt="Citymap illustration" />
+                </picture>
+            </figure>
+            <div class="headline">
+
+            </div>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.non_field_errors}}
+
+                {% for field in form %}
+                    
+                        <span>
+                            <label class="text-small-uppercase" for="{{ field.auto_id }}">{{ field.label }}</label>
+                            {{field}}
+                        </span> 
+                    
+                    {% for error in field.errors %}
+                        <span class = "errorlist">
+                            {{error}}
+                        </span>
+                    {% endfor %}
+                {% endfor %}
+
+                <!-- <input type = "submit" value="Create Class"> -->
+                <input class="text-small-uppercase" id="submit" type="submit" value="Create Class">
+            </form>
+        </main>
+            
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+    <script src = "{% static 'js/classroom/scriptForm.js' %}"></script>
+
+</body>
+</html>

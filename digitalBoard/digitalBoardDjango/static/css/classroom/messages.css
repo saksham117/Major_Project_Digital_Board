@@ -1,0 +1,60 @@
+/* The error message box */
+.error-message {
+    padding: 5%;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-top: 3%;
+    width: 100%;
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+
+  .success-message {
+    padding: 5px;
+    background-color: #47A8F5; /* Red */
+    color: white;
+    margin-top: 10px;
+    width: 16%;
+    height: 40% !important;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left:5px;
+  }
+  
+  .success-message2 {
+    padding: 5px;
+    background-color: #3ea832; /* Red */
+    color: white;
+    margin-top: 10px;
+    width: 100%;
+    min-height: 10% !important;
+    max-height: 80% !important;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left:5px;
+  }
+  /* The close button */
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }
+
+  #message-submit-assignment{
+    width: 40% !important;
+    height: 15% !important;
+    margin: auto;
+    margin-top :1%;
+  }

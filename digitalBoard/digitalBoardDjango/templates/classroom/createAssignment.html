@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load static %}
+{% load socialaccount %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Assignment</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/assignmentForm.css' %}">
+
+
+</head>
+<body>
+    {% if user.is_staff %}
+        {% include "./classroomHeaderTeacher.html" %}
+    {% else %}
+        {% include "./classroomHeaderStudent.html" %}
+    {% endif %}
+        <div class="flex-container">
+            <div class="form-group cardImage">
+                <img src='https://media.istockphoto.com/vectors/vector-isometric-scene-with-large-books-glasses-letter-a-and-reading-vector-id1163932370?k=20&m=1163932370&s=612x612&w=0&h=qMUzuL2Roa6NSE5YwwTuvc2Ry1Ondks5GcAxVVjoUzw=' alt=''>
+                <h1>Create Assignment</h1>
+                <h1>& Resources</h1>
+               
+                
+            </div>
+            <div class="form-group ">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.non_field_errors}}
+
+                    {% for field in form %}
+            
+
+                        <div>
+                            <label class="formLabel" for="{{ field.auto_id }}">{{ field.label }}</label>
+                            {{field}}
+                        </div>
+                            
+                        
+                        {% for error in field.errors %}
+                            <span class = "errorlist">
+                                {{error}}
+                            </span>
+                        {% endfor %}
+                    {% endfor %}
+                    
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    
+                </form>
+            </div>
+        </div>
+        
+            
+        
+            
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+    <script src = "{% static 'js/classroom/scriptForm.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+{% load socialaccount %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Classroom</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/messages.css' %}">
+
+</head>
+<body>
+    {% if user.is_staff %}
+        {% include "./header.html" %}
+    {% else %}
+        {% include "./headerStudent.html" %}
+    {% endif %}
+        {% if user.is_authenticated %}
+        {% if messages %}
+                    {% for message in messages %}
+                    <div class="success-message">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        {{message}}
+                    </div>
+                    {% endfor %}
+        {% endif %}
+        <div class="container" style="margin-top:5%;">
+            <div class="row">
+
+                {% if listOfClasses%}
+                    {% for class in listOfClasses %}
+                        <div class="mb-30 col-md-6 col-lg-4">
+                            <div class="card">
+                            <img class="card-icon" src="{% static 'images/home/classroom.png' %}" alt="monitoring" >
+                            <h3 class="card-title">{{ class.className }} ( {{class.courseID}})</h3>
+                            <h3 class="card-title">Class Code: {{ class.classCode }}</h3>
+                            <p class="card-text">This course is taught by {{class.teacher}}.</p>
+                            <!-- <a class="card-link" href="{% url 'classroomcontent' class.classTeacherMail %">Visit Class</a>  -->
+                            <a href="{% url 'classroomcontent' class.classTeacherMail %}">
+                                <button type="button" class="btn btn-info submissionButton">Visit Class</button>
+                            </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if listOfClassesAsStudents %}
+                    {% for class in listOfClassesAsStudents %}
+                            <div class="mb-30 col-md-6 col-lg-4">
+                                <div class="card">
+                                <img class="card-icon" src="{% static 'images/home/classroom.png' %}" alt="monitoring" >
+                                <h3 class="card-title">{{ class.className }} ( {{class.courseID}})</h3>
+                                <h3 class="card-title">Class Code: {{ class.classCode }}</h3>
+                                <p class="card-text">This course is taught by {{class.teacher}}. <strong>You have joined this as a student.</strong></p>
+                                <!-- <a class="card-link" href="{% url 'classroomcontent' class.classTeacherMail %">Visit Class</a>  -->
+                                <a href="{% url 'classroomcontent' class.classTeacherMail %}">
+                                    <button type="button" class="btn btn-info">Visit Class</button>
+                                </a>
+                                </div>
+                            </div>
+                        
+                    {% endfor %}
+                {% endif %}
+                
+                {% if not listOfClasses and not listOfClassesAsStudents  %}
+                </div>
+                </div>
+                <section class="banner">
+                    <div class="container">
+                      <div class="banner-text">
+                        <h1>Join a Class!</h1>
+                        <p><strong>You haven't joined any class so for.</strong> To join a class, click on <strong>Join Class</strong> tab and enter a valid class code that has been shared with you. For more information, go to the <strong>About Section.</strong> If you are a teacher, you can also get started by creating a class.
+                        </p>
+                      </div>
+                    </div>
+                    <img class="banner-image" id = "joinClassImage" src="https://preview.ibb.co/bMi5Y6/banner_img.png" alt="monitoring" >
+                </section>
+                {% endif %}
+            
+
+                
+
+
+
+                
+              
+            </div>
+        </div>
+        {% else %}
+        <a href="{% provider_login_url 'google' %}">Login With Google</a>
+        {% endif %}
+
+
+
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+</body>
+</html>

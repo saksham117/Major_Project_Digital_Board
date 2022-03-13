@@ -1,0 +1,46 @@
+Question,Answer
+What are the different data types present in C++?,"The 4 data types in C++ are given below:
+
+Primitive Datatype(basic datatype). Example- char, short, int, float, long, double, bool,
+Derived datatype. Example- array, pointer
+Enumeration. Example- enum
+User-defined data types. Example- structure, class"
+What are class and object in C++?,"A class is a user-defined data type that has data members and member functions. Data members are the data variables and member functions are the functions that are used to perform operations on these variables.
+
+An object is an instance of a class. Since a class is a user-defined data type so an object can also be called a variable of that data type."
+What is operator overloading?,"Operator Overloading is a very essential element to perform the operations on user-defined data types. By operator overloading we can modify the default meaning to the operators like +, -, *, /, <=, etc. "
+What is polymorphism in C++?,"Polymorphism in simple means having many forms. Its behavior is different in different situations. And this occurs when we have multiple classes that are related to each other by inheritance.
+
+For example, think of a base class called a car that has a method called car brand(). Derived classes of cars could be Mercedes, BMW, Audi - And they also have their own implementation of a cars
+
+The two types of polymorphism in c++ are:
+
+Compile Time Polymorphism
+Runtime Polymorphism"
+What is a constructor in C++?,The constructor is a member function that is executed automatically whenever an object is created. Constructors have the same name as the class of which they are members so that compiler knows that the member function is a constructor. And no return type is used for constructors.
+What is a virtual function?,"Virtual function is a member function in the base class that you redefine in a derived class. A virtual function is declared using the virtual keyword. When the function is made virtual, C++ determines which function is to be invoked at the runtime based on the type of the object pointed by the base class pointer."
+What do you know about friend class and friend function?,"A friend class can access private, protected, and public members of other classes in which it is declared as friends.
+
+Like friend class, friend function can also access private, protected, and public members. But, Friend functions are not member functions."
+What are the C++ access specifiers?,"In C++ there are the following access specifiers:
+
+Public: All data members and member functions are accessible outside the class.
+
+Protected: All data members and member functions are accessible inside the class and to the derived class.
+
+Private: All data members and member functions are not accessible outside the class."
+What is an inline function?,"If a function is inline, the compiler places a copy of the code of that function at each point where the function is called at compile time. One of the important advantages of using an inline function is that it eliminates the function calling overhead of a traditional function."
+What is a reference in C++?,"A reference is like a pointer. It is another name of an already existing variable. Once a reference name is initialized with a variable, that variable can be accessed by the variable name or reference name both."
+What do you mean by abstraction in C++?,Abstraction is the process of showing the essential details to the user and hiding the details which we don’t want to show to the user or hiding the details which are irrelevant to a particular user.
+Is deconstructor overloading possible? If yes then explain and if no then why?,"No destructor overloading is not possible. Destructors take no arguments, so there’s only one way to destroy an object. That’s the reason destructor overloading is not possible."
+What do you mean by call by value and call by reference?,"In call by value method, we pass a copy of the parameter is passed to the functions. For these copied values a new memory is assigned and changes made to these values do not reflect the variable in the main function.
+
+In call by reference method, we pass the address of the variable and the address is used to access the actual argument used in the function call. So changes made in the parameter alter the passing argument."
+What is an abstract class and when do you use it?,A class is called an abstract class whose objects can never be created. Such a class exists as a parent for the derived classes. We can make a class abstract by placing a pure virtual function in the class
+What are destructors in C++?,A constructor is automatically called when an object is first created. Similarly when an object is destroyed a function called destructor automatically gets called. A destructor has the same name as the constructor (which is the same as the class name) but is preceded by a tilde.
+What are the static members and static member functions?,"When a variable in a class is declared static, space for it is allocated for the lifetime of the program. No matter how many objects of that class have been created, there is only one copy of the static member. So same static member can be accessed by all the objects of that class.
+
+A static member function can be called even if no objects of the class exist and the static function are accessed using only the class name and the scope resolution operator ::"
+What is inheritance?,"Inheritance is the process of creating new classes, called derived classes, from existing classes. These existing classes are called base classes. The derived classes inherit all the capabilities of the base class but can add new features and refinements of their own."
+What is a copy constructor?,A copy constructor is a member function that initializes an object using another object of the same class.
+What is the difference between virtual functions and pure virtual functions?,A virtual function is a member function in the base class that you redefine in a derived class. It is declared using the virtual keyword. A pure virtual function is a function that has no implementation and is declared by assigning 0. It has no body.

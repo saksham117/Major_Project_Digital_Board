@@ -1,0 +1,90 @@
+{% comment %} will show the video along with the chatbot {% endcomment %}
+
+<!DOCTYPE html>
+{% load static %}
+{% load embed_video_tags %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lecture</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/messages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/assignments.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/video.css' %}">
+
+
+
+</head>
+<body>
+    
+    {% if user.is_staff %}
+        {% include "./classroomHeaderTeacher.html" %}
+    {% else %}
+        {% include "./classroomHeaderStudent.html" %}
+    {% endif %}
+        
+    <div class="flex-container">
+        <div class = "video_container">
+            {% video video.video 'medium' %}
+        </div>
+
+        <div class = "chatbot_container">
+            <div class= "form-heading">
+                <h3>NeoBot ~ Q/A Chatbot</h3>
+            </div>
+            
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.non_field_errors}}
+
+                {% for field in form %}
+                    
+                        <span>
+                            {{field}}
+                        </span> 
+                    
+                    {% for error in field.errors %}
+                        <span class = "errorlist">
+                            {{error}}
+                        </span>
+                    {% endfor %}
+                {% endfor %}
+                
+                <br>
+                <!-- <input type = "submit" value="Create Class"> -->
+                <button class="btn btn-primary" type="submit" style="margin-left: 73%;">Ask Question</button>
+            </form>
+            <p>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="success-message2">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        {{message}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+
+
+
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+</body>
+</html>

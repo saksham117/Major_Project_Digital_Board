@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load static %}
+{% load socialaccount %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>About Us</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/aboutUs.css' %}">
+
+
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+        {% if user.is_staff %}
+            {% include "./header.html" %}
+        {% else %}
+            {% include "./headerStudent.html" %}
+        {% endif %}
+    {% else %}
+        {% include "./headerSignedOut.html" %}
+    {% endif %}
+    
+    <section class="banner">
+        <div class="container">
+          <div class="banner-text">
+            <h1>About Us</h1>
+            <p>
+                Digital Classroom can be thought of as a <strong>submission tool</strong>, where teachers can upload assignments, share resources keep a track of all submissions so far, and the students can submit those assignments, keep a track of pending assignments and add comments as well.  
+            </p>
+          </div>
+        </div>
+        <img class="banner-image" src="https://preview.ibb.co/bMi5Y6/banner_img.png" alt="monitoring" >
+      </section>
+
+      <section class="dl-blurbs">
+        <dl>
+            <dt>Logging In</dt>
+            <dd>All users, be it teachers or students(in real life) are granted student access only. This makes them unable to create classes and subsequently assignments. This has been implemented as a security feature to prevent anyone from having teaching access. </dd>
+
+            <dt>Teacher Access</dt>
+            <dd>To get teaching access, click on the Request Teacher Access button. An email will be sent to admin as well as to you, indicating that you have requested for teaching access. If everything checks out well and you indeed are a teacher, the admin will grant you teaching access within 24 hours. You need to log out and log in, for the changes to be visible.</dd>
+            <dt>Join a Class</dt>
+            <dd>In order to join classes and submit assignments, you need to have class codes. Ask your teacher to share it with you. In the meantime you can join these classes, Class Code: b626R4 (Python), Class Code: 9Mxc1T (C++). Class codes are 6 digit alphanumeric unique strings.</dd>
+        </dl>
+        <dl>
+            <dt>Assignments</dt>
+            <dd>The teacher can upload both assignments as well as study materials. Assignments need to be submitted before the deadline. For resources, there are no submissions required. The deadline associated with resources means that teacher expects you to complete them before that date.</dd>
+            <dt>To Do List</dt>
+            <dd>The students get access to a to-do list. Using the to-do list they can keep a record of all the assignments that need to be submitted. The tasks in the to-do list are sorted chronologically, ie, the assignment having the closest submission date will appear first.</dd>
+    
+            <dt>Pin Items</dt>
+            <dd>The teachers can pin certain assignments and reading material. Pinned assignments will appear at the very top of the classroom. This helps the students to easily navigate to and access these important resources.</dd>
+        </dl>
+    </section>
+      
+      
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+      
+</body>
+</html>

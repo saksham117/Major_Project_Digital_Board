@@ -1,0 +1,104 @@
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 50%;
+    margin: auto;
+    margin-top: 5%;
+    border-radius: 0.5rem;
+    padding: 2%;
+    background-color: white;
+    box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
+
+}
+
+.form-group {
+    margin:2%;
+}
+
+.form-control-file{
+    color: #020F53;
+    font-weight: bold;
+    margin-bottom: 5%;
+
+}
+
+.formLabel{
+    color: #020F53;
+    font-weight: bold;
+    margin-right: 3%;
+}
+
+.form-control{
+    margin-bottom: 5%;
+}
+
+#id_submission_date{
+    color: #020F53;
+    /* margin-bottom: 5%; */
+}
+
+
+.btn{
+    margin-top:8%;
+    background: #1279AD; /* fallback for old browsers */
+    border-color: #1279AD;
+    
+}
+
+.cardImage {
+    --card-gradient: rgba(0, 0, 0, 0.8);
+    --card-gradient: #5e9ad9, #e271ad;
+    --card-blend-mode: overlay;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
+    padding-bottom: 1rem;
+    background-image: linear-gradient(var(--card-gradient), white max(9.5rem, 27vh));
+    overflow: hidden;
+    height: 80%;
+    margin-top: 7%;
+  }
+  .cardImage img {
+    
+    border-radius: 0.5rem ;
+    width: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+    /* height: 70%; */
+    max-height: max(10rem, 30vh);
+    aspect-ratio: 4/3;
+    /* mix-blend-mode: var(--card-blend-mode); */
+  }
+  .cardImage img ~ * {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+ 
+  
+  .cardImage h1 {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: #020F53;
+    font-weight: bold;
+  }
+  
+#submitAssignmentForm{
+    margin-top:10%;
+    height: 100%;
+}
+
+#submitAssignmentCard{
+    margin-top: 5%;
+    
+}
+
+#submitAssignmentButton{
+    margin-top: -2%;
+}
+
+.show_files {
+    color: #989dc5;
+    font-size: 1.1em;
+}

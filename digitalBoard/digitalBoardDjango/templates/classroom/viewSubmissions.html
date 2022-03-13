@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+{% load socialaccount %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>View Submissions</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/messages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/table.css' %}">
+
+
+
+</head>
+<body>
+    {% if user.is_staff %}
+        {% include "./classroomHeaderTeacher.html" %}
+    {% else %}
+        {% include "./classroomHeaderStudent.html" %}
+    {% endif %}
+
+        
+    {% if user.is_authenticated %}
+            {% if submissions %}
+                <div class="container-table">
+                    <h2>Submissions</h2>
+                    <ul class="responsive-table">
+                        <li class="table-header">
+                            <div class="col col-1">S.No</div>
+                            <div class="col col-2">Student</div>
+                            <div class="col col-3">Attachments</div>
+                            <div class="col col-4">Comment</div>
+                            <div class="col col-5">Day Submitted</div>
+                        </li>
+                        {% for submission in submissions %}
+                            <li class="table-row">
+                                <div class="col col-1" data-label="S.No">{{ forloop.counter }}</div>
+                                <div class="col col-2" data-label="Student">{{submission.studentEmail}}</div>
+                                <div class="col col-3" data-label="Attachments"><a href="{{ submission.attachments.url }}" target="_blank">{{ submission.attachments}}</a></div>
+                                <div class="col col-4" data-label="Comment">{{submission.comment}}</div>
+                                <div class="col col-5" data-label="Submission Date">{{submission.submissionDate}}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            {% else %}
+                <section class="banner">
+                    <div class="container">
+                    <div class="banner-text">
+                        <h1>No Assignments Submitted</h1>
+                        <p> 
+                            The students haven't uploaded any assignments so far!
+                        </p>
+                    </div>
+                    </div>
+                    <img class="banner-image" id = "joinClassImage" src="https://preview.ibb.co/bMi5Y6/banner_img.png" alt="monitoring" >
+                </section>
+
+            {% endif %}
+        {% else %}
+        <a href="{% provider_login_url 'google' %}">Login With Google</a>
+    {% endif %}
+
+
+
+
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+    <script src = "{% static 'js/header.js' %}"></script>
+</body>
+</html>

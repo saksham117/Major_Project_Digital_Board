@@ -51,8 +51,8 @@ def classRoom(request):
             try:
                 # fetch all the classrooms the teacher teaches
                 obj = TeacherClassroom.objects.get(pk = teacherEMail)
-                print(obj)
-                print(list(obj.classTeacherMail.all()))
+                # print(obj)
+                # print(list(obj.classTeacherMail.all()))
                 listOfClasses = list(obj.classTeacherMail.all())
             except:
                 print("No classrooms exist yet")
@@ -60,8 +60,8 @@ def classRoom(request):
             try:
                 # fetch all the classrooms the teacher has joined as a student
                 obj = StudentClassroom.objects.get(pk = teacherEMail)
-                print(obj)
-                print(list(obj.classTeacherMail.all()))
+                # print(obj)
+                # print(list(obj.classTeacherMail.all()))
                 listOfClassesAsStudents = list(obj.classTeacherMail.all())
             except:
                 print("No classrooms in which you exist as student yet")    
@@ -76,8 +76,8 @@ def classRoom(request):
             listOfClasses = None # stores the classes in which the student studies
             try: # fetch all the classes the student studies in
                 obj = StudentClassroom.objects.get(pk = studentEmail)
-                print(obj)
-                print(list(obj.classTeacherMail.all()))
+                # print(obj)
+                # print(list(obj.classTeacherMail.all()))
                 listOfClasses = list(obj.classTeacherMail.all())
             except:
                 print("No classrooms exist yet")    
@@ -193,15 +193,15 @@ def sendEmail(request):
 def viewClassRoom(request, classId):
     if request.user.is_authenticated:
         
-            print(classId)
-            print(type(classId))
+            # print(classId)
+            # print(type(classId))
             classroom = Classroom.objects.get(classTeacherMail = classId)
             
             listOfAssignments = None #stores a list of all the assignments
             try:
                 # fetch all the classrooms the teacher teaches
                 assignments = classroom.createassignment_set.all()
-                print(assignments)
+                # print(assignments)
                 listOfAssignments = list(assignments)
             except:
                 print("No assignments exist yet")
@@ -221,7 +221,7 @@ def createAssignment(request, classId):
         if request.method == 'POST':
             fm = CreateAssignmentForm(request.POST, request.FILES)
             if fm.is_valid():
-                print(fm)
+                # print(fm)
 
                 # filtering out the data received from the form
                 title = fm.cleaned_data['title']
@@ -271,8 +271,8 @@ def createAssignment(request, classId):
                 return redirect('classroomcontent', classId=classId)
             
         else: # when the request is get request
-            print(classId)
-            print(type(classId))
+            # print(classId)
+            # print(type(classId))
             classroom = Classroom.objects.get(classTeacherMail = classId)
             fm = CreateAssignmentForm()
             context = {
@@ -290,7 +290,7 @@ def submitAssignment(request,classId, taskCode):
         if request.method == 'POST':
             fm = SubmitAssignmentForm(request.POST, request.FILES)
             if fm.is_valid():
-                print(fm)
+                # print(fm)
 
                 # filtering out the data received from the form
                 attachment = fm.cleaned_data['attachments']
@@ -328,8 +328,8 @@ def submitAssignment(request,classId, taskCode):
                 submission = assignment.submitassignment_set.filter(studentEmail = request.user.email)
                 submission = list(submission)
                 submission = submission[0]
-                print(submission.attachments.url)
-                print(submission)
+                # print(submission.attachments.url)
+                # print(submission)
             except:
                 print("No attachment so far!")
             
@@ -407,10 +407,10 @@ def to_do_list(request):
                 if( assignment.submitassignment_set.filter(studentEmail = request.user.email) ):
                     continue
                 else:
-                    print(assignment)
+                    # print(assignment)
                     listOfTasks.append(assignment)
 
-            print(listOfTasks)
+            # print(listOfTasks)
             listOfTasks.sort(key=lambda r: r.submissionDate) # sort them according to day of submission 
         except:
             listOfTasks = None
@@ -438,7 +438,7 @@ def viewVideos(request, classId):
     try:
         # fetch all the classrooms the teacher teaches
         videos = classroom.videolectures_set.all()
-        print(videos)
+        # print(videos)
         listOfVideos = list(videos)
     except:
         print("No video lectures exist yet")
@@ -500,10 +500,10 @@ def science():
     """This is where our database will be inserted """
 
     df = pd.read_csv(r'classRoom/databases/data.csv')
-    print(df.columns)
+    # print(df.columns)
     # print("Given Dataframe :\n", df)
 
-    print("\nIterating over rows using index attribute :\n")
+    # print("\nIterating over rows using index attribute :\n")
     
     # iterate through each row and select 
     # 'Name' and 'Stream' column respectively.
@@ -516,7 +516,7 @@ def science():
     # returns all the examples that we have fed to the gpt3 model
     # all_examples = gpt.get_all_examples()
     # print(all_examples)
-    print('Science function called')
+    # print('Science function called')
     return gpt 
 
 
@@ -531,10 +531,10 @@ def cpp():
     """This is where our database will be inserted """
 
     df = pd.read_csv(r'classRoom/databases/c++.csv', encoding='cp1252')
-    print(df.columns)
+    # print(df.columns)
     # print("Given Dataframe :\n", df)
 
-    print("\nIterating over rows using index attribute :\n")
+    # print("\nIterating over rows using index attribute :\n")
     
     # iterate through each row and select 
     # 'Name' and 'Stream' column respectively.
@@ -547,7 +547,7 @@ def cpp():
     # returns all the examples that we have fed to the gpt3 model
     # all_examples = gpt.get_all_examples()
     # print(all_examples)
-    print('C++ function called')
+    # print('C++ function called')
     return gpt 
 
 def pythonbot():
@@ -561,15 +561,15 @@ def pythonbot():
     """This is where our database will be inserted """
 
     df = pd.read_csv(r'classRoom/databases/python.csv')
-    print(df.columns)
+    # print(df.columns)
     # print("Given Dataframe :\n", df)
 
-    print("\nIterating over rows using index attribute :\n")
+    # print("\nIterating over rows using index attribute :\n")
     
     # iterate through each row and select 
     # 'Name' and 'Stream' column respectively.
     for ind in df.index:
-        print(df['Question'][ind], df['Answer'][ind]) #for testing
+        # print(df['Question'][ind], df['Answer'][ind]) #for testing
         question = str(df['Question'][ind])
         answer = str(df['Answer'][ind])
         gpt.add_example(Example(question, answer))
@@ -577,7 +577,7 @@ def pythonbot():
     # returns all the examples that we have fed to the gpt3 model
     # all_examples = gpt.get_all_examples()
     # print(all_examples)
-    print('python function called')
+    # print('python function called')
     return gpt 
 
 
@@ -592,10 +592,10 @@ def dbms():
     """This is where our database will be inserted """
 
     df = pd.read_csv(r'classRoom/databases/dbms.csv', encoding='cp1252')
-    print(df.columns)
+    # print(df.columns)
     # print("Given Dataframe :\n", df)
 
-    print("\nIterating over rows using index attribute :\n")
+    # print("\nIterating over rows using index attribute :\n")
     
     # iterate through each row and select 
     # 'Name' and 'Stream' column respectively.
@@ -608,6 +608,6 @@ def dbms():
     # returns all the examples that we have fed to the gpt3 model
     # all_examples = gpt.get_all_examples()
     # print(all_examples)
-    print('DBMS function called')
+    # print('DBMS function called')
     return gpt 
 

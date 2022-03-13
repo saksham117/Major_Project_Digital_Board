@@ -4,8 +4,6 @@ We are here to make your digital classroom experience as seamless as possible. O
 
 Here is the link to the website: [Digital Board](https://digitalboard.herokuapp.com/)
 
-Here is the link to the demo video : [Digital Board](https://youtu.be/YJrfbwm3uV0)
-
 
 **Note:** As it's uploaded on a free tier service, the initial get request to the website might be slow. The subsequent requests will be pretty fast!   
 
@@ -190,8 +188,7 @@ Feel free to [open an issue](https://github.com/saksham117/digitalBoard/issues) 
 ## ⭐ Feature Request
 
 - Feel free to [Open an issue](https://github.com/saksham117/digitalBoard/issues) on GitHub to request any additional features you might need for your use case.
-- Connect with me on [LinkedIn](https://www.linkedin.com/in/saksham-basandrai117/). I'd love ❤️️ to hear from you.
-  
+
   
 
   

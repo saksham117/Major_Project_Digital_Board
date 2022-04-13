@@ -1,6 +1,9 @@
 import smtplib, ssl
 
 port = 587  # For starttls
+
+# need to update sender_email and receiver_email and psswd
+
 smtp_server = "smtp.gmail.com"
 sender_email = ""
 receiver_email = ""

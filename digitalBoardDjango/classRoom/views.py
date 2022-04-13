@@ -180,7 +180,7 @@ def sendEmail(request):
     if request.user.is_authenticated and not(request.user.is_staff):
         subject = 'Greetings from Digital Board'
         user = request.user
-        message = f'Hi {user.username}, thank you for being a part of the Digital Board Community.\nWe have processed your request and we will grant you teacher access if everything checks out fine.\n\nThank You. \nRegards\nSaksham Basandrai'
+        message = f'Hi {user.username}, thank you for being a part of the Digital Board Community.\nWe have processed your request and we will grant you teacher access if everything checks out fine.\n\nThank You. \nRegards\nTeam DigitalBoard'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [user.email, 'sakshamb117@gmail.com' ]
         send_mail( subject, message, email_from, recipient_list )

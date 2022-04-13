@@ -3,7 +3,7 @@
 We are here to make your digital classroom experience as seamless as possible. Our tools make it simple to manage and submit your assignments, view and share study material and resources, keep a track of your pending tasks and help you make most of your remote learning experience.
 
 
-**Note:** As it's uploaded on a free tier service, the initial get request to the website might be slow. The subsequent requests will be pretty fast!   
+  
 
 
 ## Contents ##
@@ -172,20 +172,19 @@ Depending on whether you are a student or you are a teacher, you get different o
 ## 🙏 Final Comments
 
 - While implementing the project, it was ensured that the best practices of agile methodolgy were followed.
-- The front end part is not completely my contribution. I have taken help from resources like CodePen
 - While loggin in, you sometimes might get this error **Error 400: redirect_uri_mismatch** . This happens as Heroku and Google OAuth are not always able to communicate. Just go back and try to log in again. The error will disappear.
   
 <a id="bug"></a>
 
 ## 🐛 Bug Reporting
 
-Feel free to [open an issue](https://github.com/saksham117/digitalBoard/issues) on GitHub if you find any bug.
+Feel free to [open an issue](https://github.com/saksham117/Major_Project_Digital_Board/issues) on GitHub if you find any bug.
 
 <a id="feature-request"></a>
 
 ## ⭐ Feature Request
 
-- Feel free to [Open an issue](https://github.com/saksham117/digitalBoard/issues) on GitHub to request any additional features you might need for your use case.
+- Feel free to [Open an issue](https://github.com/saksham117/Major_Project_Digital_Board/issues) on GitHub to request any additional features you might need for your use case.
 
   
 

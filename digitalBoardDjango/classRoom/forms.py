@@ -61,3 +61,5 @@ class Question(forms.Form):
     question = forms.CharField(max_length=300, required=True, 
                                 widget=forms.TextInput(attrs={'placeholder': 'Ask Me Anything',
                                                                'class': 'form-control'}))
+
+

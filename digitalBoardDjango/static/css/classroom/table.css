@@ -36,10 +36,11 @@
   }
   .responsive-table .col-1 {
     flex-basis: 1%;
-    margin-right: -10%;
+    margin-right: -5%;
   }
   .responsive-table .col-2 {
     flex-basis: 40%;
+    margin-right: 5%;
     
   }
   .responsive-table .col-3 {

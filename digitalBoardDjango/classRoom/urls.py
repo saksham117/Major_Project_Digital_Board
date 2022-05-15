@@ -25,6 +25,4 @@ urlpatterns = [
     path('classroomcontent/<str:classId>/videoLectures/<str:videoId>/', views.video, name='video'),
 
 
-
-
 ]

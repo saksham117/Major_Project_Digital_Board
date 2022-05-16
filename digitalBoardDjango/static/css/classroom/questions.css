@@ -1,0 +1,7 @@
+.flex-container-questions {
+    display: flex;
+  }
+  
+  .flex-container-questions > a {
+    margin-right: 5%;
+  }

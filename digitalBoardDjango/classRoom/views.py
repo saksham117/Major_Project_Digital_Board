@@ -1,11 +1,12 @@
 from __future__ import print_function
+from fileinput import filename
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, CreateView
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from .forms import CreateClassRoom, JoinClassRoom, CreateAssignmentForm, SubmitAssignmentForm, Question
+from .forms import CreateClassRoom, JoinClassRoom, CreateAssignmentForm, SubmitAssignmentForm, Question, AddVideoForm, AddQuestionsForm
 
-from .models import Classroom, StudentClassroom, TeacherClassroom, ClassCodes, AssignmentCodes, CreateAssignment, SubmitAssignment, VideoLectures
+from .models import Classroom, StudentClassroom, TeacherClassroom, ClassCodes, AssignmentCodes, CreateAssignment, SubmitAssignment, VideoLectures, Lectures, VideoCodes, Post, PostIds, Reply
 from django.contrib import messages
 # for sending email to grant teaccher access
 from django.conf import settings
@@ -18,6 +19,8 @@ import string
 # for sorting to do list
 from operator import attrgetter
 
+# for downloading sample excel
+from django.http import FileResponse, Http404
 
 # for gpt3
 from .key import returnKey
@@ -426,48 +429,233 @@ def to_do_list(request):
         return HttpResponseRedirect('/')
 
 
-# adding functionality of chatbot(neoBot)
+
+
+# for video file
+from .models import VideoTest
+from .forms import VideoForm
+
+def showvideo(request):
+
+    lastvideo= VideoTest.objects.last()
+
+    form= VideoForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+
+    
+    context= {'video': lastvideo,
+              'form': form
+              }
+    
+      
+    return render(request, 'classroom/videotest.html', context)
+
+
+# used by teacher to create assignments
+def addVideo(request, classId):
+    if request.user.is_authenticated and request.user.is_staff:
+        if request.method == 'POST':
+            fm = AddVideoForm(request.POST, request.FILES)
+            if fm.is_valid():
+                # print(fm)
+
+                # filtering out the data received from the form
+                title = fm.cleaned_data['title']
+                description = fm.cleaned_data['description']
+                classroom = Classroom.objects.get(classTeacherMail = classId)
+                videoCode = getClassCode(10)
+                videoFile = fm.cleaned_data['videoFile']
+
+
+                if request.user.email != classroom.teacher:
+                    messages.error(request, 'You do not have the right permissions. You are a student in this class.')
+                    return redirect('classroomcontent', classId=classId)
+
+                
+                
+                # checking if classCode generated is unique or not
+                # keep on generating a new classcode till we get a unique classcode
+                try:
+                    videoCode = VideoCodes.objects.get(videoCode = videoCode)
+                    try:
+                        while(VideoCodes.objects.get(videoCode = videoCode)):
+                            videoCode = getClassCode(10)
+                    except:
+                        print("Yayy, we got a unique class code")
+                except:
+                    print("Yayy, we got a unique class code")
+
+                # saving it to the classCodes database
+                videoCodesObj = VideoCodes(videoCode = videoCode)
+                videoCodesObj.save()
+                
+                # making an entry into the database of classrooms
+                addVideoObj = Lectures(
+                                  title = title,
+                                  description = description,
+                                  videoCode = videoCode,
+                                  classroom = classroom,
+                                  videoFile = videoFile,
+                                  excelFile = None,
+                                  excelFilePath = None,
+                                  )
+                addVideoObj.save()
+                messages.success(request, 'Video Uploaded')
+                # needs to be updated
+                return redirect('viewvideos', classId=classId) 
+            
+        else: # when the request is get request
+            # print(classId)
+            # print(type(classId))
+            classroom = Classroom.objects.get(classTeacherMail = classId)
+            fm = AddVideoForm()
+            context = {
+                'class' : classroom,
+                'form' : fm,
+            }
+            return render(request, 'classroom/addVideo.html', context)
+    else: # when user is unauthenticated or not staff
+        return HttpResponseRedirect('/')
 
 # displaying all the video lectures
 def viewVideos(request, classId):
     """
         returns the page containing a list of all assignments that have been assigned
     """
-    classroom = Classroom.objects.get(classTeacherMail = classId)
-    listOfVideos = None #stores a list of all the assignments
-    try:
-        # fetch all the classrooms the teacher teaches
-        videos = classroom.videolectures_set.all()
-        # print(videos)
-        listOfVideos = list(videos)
-    except:
-        print("No video lectures exist yet")
+    if request.user.is_authenticated:
+        classroom = Classroom.objects.get(classTeacherMail = classId)
+        listOfVideos = None #stores a list of all the assignments
+        try:
+            # fetch all the classrooms the teacher teaches
+            videos = classroom.lectures_set.all()
+            # print(videos)
+            listOfVideos = list(videos)
+        except:
+            print("No video lectures exist yet")
 
-    context = {
-        'class' : classroom,
-        'videos' : listOfVideos,
-    }
-    return render(request, 'classroom/classroomVideo.html', context)
+        context = {
+            'class' : classroom,
+            'videos' : listOfVideos,
+        }
+        return render(request, 'classroom/classroomVideo.html', context)
+    else:
+        return HttpResponseRedirect('/')
+
+
+# function for downloading excel file
+
+def download_sample_file(request):
+
+    if request.user.is_authenticated:
+        try:
+            
+            filename = 'classRoom/databases/sample.csv'
+            file =  FileResponse(open(filename, 'rb'), content_type='text/csv', as_attachment= True)
+            filename = 'sample.csv'
+            file.set_headers(filename)
+            return file
+        except FileNotFoundError:
+            raise Http404()
+    else:
+        return HttpResponseRedirect('/')
+
+import boto3, os # for downloading csv from s3 bucket
+def download_aws(fileName, videoId):
+    s3 = boto3.client('s3', 
+                       aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID'), 
+                       aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY'))
+
+    currentDir = os.getcwd()
+    csvFilename = f"csv_{videoId}.csv"
+    currentFileCSV = currentDir +"//" + "databases" + "//" + csvFilename
+
+    print(currentFileCSV)
+    print(fileName)
+
+
+    s3.download_file(os.environ.get('AWS_STORAGE_BUCKET_NAME') , fileName , currentFileCSV)
+
+    videoLecture = Lectures.objects.get(videoCode = videoId)
+    videoLecture.excelFilePath = currentFileCSV
+    videoLecture.save()
+
+
+
+# used by students to submit the assignment
+
+
+def addQuestions(request, classId, videoId):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            fm = AddQuestionsForm(request.POST, request.FILES)
+            if fm.is_valid():
+                # print(fm)
+
+                # filtering out the data received from the form
+                excelFile = fm.cleaned_data['excel_File']
+
+                print(excelFile)
+                print(type(excelFile))
+                print()
+                
+                videoLecture = Lectures.objects.get(videoCode = videoId)
+                videoLecture.excelFile = excelFile
+                videoLecture.save()
+
+                print(videoLecture.excelFile)
+                print(type(videoLecture.excelFile))
+
+                # by specifying filename here, I am able to get the updated filename
+                # by default django creates a new version if file with same name is uploaded
+                # s3 bucket does not do that
+
+                # so what was happening was that if I defined filename before saving the object, then the filename at that point
+                # would be test.csv only(taking example of test,csv)
+                # but iw touwld get uploaded as test-some-random-nos.csv to s3 as django would create a new version
+                # this was causing problems when I was downloading it back for gpt3
+                # so now I defined filename after saving the db object
+                # noe it works fine
+                fileName = videoLecture.excelFile.name 
+                print()
+                print(fileName)
+
+                # downnload the file that user just uploaded
+                download_aws(fileName, videoId)
+
+                messages.success(request, 'Your questions have been submitted. To submit another file, just attach the new file and click on submit again.')
+                return redirect('addquestions', classId = classId, videoId=videoId)
+            else:
+                messages.error(request, 'The submitted file is empty. Please enter another file.')
+                return redirect('addquestions', classId = classId, videoId=videoId)
+
+
+            
+        else: # when the request is get request
+            
+            fm = AddQuestionsForm()
+            videoLecture = Lectures.objects.get(videoCode = videoId)
+            classroom = Classroom.objects.get(classTeacherMail = classId)
+            # classroom needs to be sent
+            # cox using this we are taking out classid
+            # which is used to create dynamic url for many of the options inside the header class
+            context = {
+                'class' : classroom,
+                'form' : fm,
+                'videoLecture': videoLecture,
+            }
+            return render(request, 'classroom/addQuestions.html', context)
+    else: # when user is unauthenticated or not staff
+        return HttpResponseRedirect('/')
+
 
 
 # displaying particular video and chatbot
-
-
 def video(request, classId, videoId):
 
     if request.method == 'POST':
-        gpt = None
-
-        if classId == 'Physics_sakshamdrdo@gmail.com':
-            gpt = science()
-        elif classId == 'C++_sakshambasandrai.be18cse@pec.edu.in':
-            gpt = cpp()
-        elif classId == 'Python_sakshambasandrai.be18cse@pec.edu.in':
-            gpt = pythonbot()
-        elif classId == 'DBMS_sakshamdrdo@gmail.com':
-            gpt = dbms()
-        else:
-            gpt = science()
+        
+        gpt = gpt_getter(videoId)
 
         fm = Question(request.POST)
         if fm.is_valid():
@@ -477,19 +665,23 @@ def video(request, classId, videoId):
             return redirect('video', classId = classId, videoId = videoId)
     else:
         classroom = Classroom.objects.get(classTeacherMail = classId)
-        video = VideoLectures.objects.get(videoCode = videoId)
+        lecture = Lectures.objects.get(videoCode = videoId)
 
         fm = Question()
         context = {
             'class' : classroom,
-            'video' : video,
+            'lecture' : lecture,
             'form' : fm,
         }
 
         return render(request, 'classroom/video.html', context)
 
 
-def science():
+
+
+# adding functionality of chatbot(neoBot)
+
+def gpt_getter(videoId):
     openai.api_key = returnKey()
     gpt = GPT(engine="davinci",
             temperature=0.8,
@@ -499,8 +691,12 @@ def science():
     # add some code examples
     """This is where our database will be inserted """
 
-    df = pd.read_csv(r'classRoom/databases/data.csv')
-    # print(df.columns)
+    currentDir = os.getcwd()
+    csvFilename = f"csv_{videoId}.csv"
+    currentFileCSV = currentDir +"//" + "databases" + "//" + csvFilename
+
+    df = pd.read_csv(currentFileCSV)
+    print(df.columns)
     # print("Given Dataframe :\n", df)
 
     # print("\nIterating over rows using index attribute :\n")
@@ -520,96 +716,130 @@ def science():
     return gpt 
 
 
-def cpp():
-    openai.api_key = returnKey()
-    gpt = GPT(engine="davinci",
-            temperature=0.8,
-            output_prefix="",
-            max_tokens=400)
 
-    # add some code examples
-    """This is where our database will be inserted """
+# discussion portal
 
-    df = pd.read_csv(r'classRoom/databases/c++.csv', encoding='cp1252')
-    # print(df.columns)
-    # print("Given Dataframe :\n", df)
+def forum(request, classId):
+    #classroom = Classroom.objects.get(classTeacherMail = classId)
+    if request.user.is_authenticated:
+        classroom = Classroom.objects.get(classTeacherMail = classId)
+        if request.method=="POST":   
+            try:    
+                user = request.user
+                content = request.POST.get('content','')
+                classroom = Classroom.objects.get(classTeacherMail = classId)
+                post_id = getClassCode(10)
 
-    # print("\nIterating over rows using index attribute :\n")
+                try:
+                    post_id = PostIds.objects.get(post_id = post_id)
+                    try:
+                        while(PostIds.objects.get(post_id = post_id)):
+                            post_id = getClassCode(10)
+                    except:
+                        print("Yayy, we got a unique class code")
+                except:
+                    print("Yayy, we got a unique class code")
+
+                
+                post_idObj = PostIds(post_id = post_id)
+                post_idObj.save()
+                
+                # making an entry into the database of classrooms
+                postObj = Post(
+                                  user1 = user,
+                                  post_id = post_id,
+                                  post_content = content,
+                                  classroom = classroom,
+                                  )
+                postObj.save()
+
+
+                
+
+                posts = Post.objects.filter(classroom = classroom).order_by('-timestamp')
+
+                # posts = classroom.post_set.all()
+                # print(assignments)
+                # listOfPosts = list(posts)
+                alert = True
+                context = {
+                    'posts' : posts,
+                    'class' : classroom,
+                    'alert':alert
+                }
+                
+                return render(request, "classroom/forum.html", context)
+
+            except:
+                print("No discussions yet")
+                context = {
+                    'class' : classroom,
+                    'alert':alert
+                }
+                
+                return render(request, "classroom/forum.html", context)
+
+           
+        else:
+            posts = Post.objects.filter(classroom = classroom).order_by('-timestamp')
+            context = {
+                    'class' : classroom,
+                    'posts':posts,
+            }
+            
+            return render(request, "classroom/forum.html", context)
+    else:
+        return HttpResponseRedirect('/')
+
+def discussion(request, classId, postId):
+    classroom = Classroom.objects.get(classTeacherMail = classId)
+    post = Post.objects.get(post_id = postId)
     
-    # iterate through each row and select 
-    # 'Name' and 'Stream' column respectively.
-    for ind in df.index:
-        #  print(df['Question'][ind], df['Answer'][ind]) #for testing
-        question = str(df['Question'][ind])
-        answer = str(df['Answer'][ind])
-        gpt.add_example(Example(question, answer))
 
-    # returns all the examples that we have fed to the gpt3 model
-    # all_examples = gpt.get_all_examples()
-    # print(all_examples)
-    # print('C++ function called')
-    return gpt 
+    listOfReplies = None #stores a list of all the assignments
+    try:
+        # fetch all the classrooms the teacher teaches
+        replies = post.reply_set.all()
+        # print(videos)
+        listOfReplies = list(replies)
+        listOfReplies.sort(key=lambda x: x.timestamp, reverse=True)
+    except:
+        print("No replies exist yet")
 
-def pythonbot():
-    openai.api_key = returnKey()
-    gpt = GPT(engine="davinci",
-            temperature=0.8,
-            output_prefix="",
-            max_tokens=400)
 
-    # add some code examples
-    """This is where our database will be inserted """
 
-    df = pd.read_csv(r'classRoom/databases/python.csv')
-    # print(df.columns)
-    # print("Given Dataframe :\n", df)
-
-    # print("\nIterating over rows using index attribute :\n")
+    if request.method=="POST":
+        user = request.user
+        desc = request.POST.get('desc','')
+        post_id =request.POST.get('post_id','')
+        reply = Reply(user = user, reply_content = desc, post=post)
+        reply.save()
+        alert = True
     
-    # iterate through each row and select 
-    # 'Name' and 'Stream' column respectively.
-    for ind in df.index:
-        # print(df['Question'][ind], df['Answer'][ind]) #for testing
-        question = str(df['Question'][ind])
-        answer = str(df['Answer'][ind])
-        gpt.add_example(Example(question, answer))
+        listOfReplies = None #stores a list of all the assignments
+        try:
+            # fetch all the classrooms the teacher teaches
+            replies = post.reply_set.all()
+            # print(videos)
+            listOfReplies = list(replies)
+            listOfReplies.sort(key=lambda x: x.timestamp, reverse=True)
+        except:
+            print("No replies exist yet")
 
-    # returns all the examples that we have fed to the gpt3 model
-    # all_examples = gpt.get_all_examples()
-    # print(all_examples)
-    # print('python function called')
-    return gpt 
+        context = {
+            'alert':alert,
+            'class' : classroom,
+            'post' : post,
+            'replies' : listOfReplies,
+        }
 
+        return render(request, "classroom/discussion.html", context)
+    else:
 
-def dbms():
-    openai.api_key = returnKey()
-    gpt = GPT(engine="davinci",
-            temperature=0.8,
-            output_prefix="",
-            max_tokens=400)
+        context = {
+            'class' : classroom,
+            'post' : post,
+            'replies' : listOfReplies,
+            }
 
-    # add some code examples
-    """This is where our database will be inserted """
-
-    df = pd.read_csv(r'classRoom/databases/dbms.csv', encoding='cp1252')
-    # print(df.columns)
-    # print("Given Dataframe :\n", df)
-
-    # print("\nIterating over rows using index attribute :\n")
-    
-    # iterate through each row and select 
-    # 'Name' and 'Stream' column respectively.
-    for ind in df.index:
-        #  print(df['Question'][ind], df['Answer'][ind]) #for testing
-        question = str(df['Question'][ind])
-        answer = str(df['Answer'][ind])
-        gpt.add_example(Example(question, answer))
-
-    # returns all the examples that we have fed to the gpt3 model
-    # all_examples = gpt.get_all_examples()
-    # print(all_examples)
-    # print('DBMS function called')
-    return gpt 
-
-
-
+        return render(request, "classroom/discussion.html", context)

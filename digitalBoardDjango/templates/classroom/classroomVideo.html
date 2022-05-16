@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/classroom/messages.css' %}">
     <link rel="stylesheet" href="{% static 'css/classroom/assignments.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/questions.css' %}">
+
 
 
 </head>
@@ -54,11 +56,18 @@
                                     <p class="card-text">
                                         {{ video.description }} <br>
                                     </p>
+                                    <div class="flex-container-questions">
+                                        {% if user.is_staff %}
+                                            <a href="{% url 'addquestions' class.classTeacherMail video.videoCode %}">
+                                                <button type="button" class="btn btn-info submissionButton">Add Questions</button>
+                                            </a> 
+                                        {% endif %}
 
-                                    
-                                    <a href="{% url 'video' class.classTeacherMail video.videoCode %}">
-                                        <button type="button" class="btn btn-info submissionButton">Watch Tutorial</button>
-                                    </a> 
+                                        <a href="{% url 'video' class.classTeacherMail video.videoCode %}">
+                                            <button type="button" class="btn btn-info submissionButton">Watch Tutorial</button>
+                                        </a> 
+                                    </div>
+
                                 </div>
                             </div>
                     {% endfor %}

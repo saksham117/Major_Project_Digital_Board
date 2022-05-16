@@ -22,10 +22,10 @@
                 <a class="nav-link" href="{% url 'classroomcontent' class.classTeacherMail %}"><i class="fas fa-book"></i><span class="nav-text">Assignments</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'todo' %}"><i class="fas fa-tasks"></i>To Do</a>
+                <a class="nav-link" href="{% url 'forum' class.classTeacherMail %}"><i class="fas fa-comments"></i>Discussion</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'aboutus' %}"><i class="fas fa-info-circle"></i><span class="nav-text">About Us</span></a>
+                <a class="nav-link" href="{% url 'todo' %}"><i class="fas fa-tasks"></i>To Do</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i><span class="nav-text">Logout</span></a>

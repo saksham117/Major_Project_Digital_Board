@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Discussion Forum</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/messages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classroom/assignments.css' %}">
+
+
+</head>
+<body>
+    {% if user.is_staff %}
+        {% include "./classroomHeaderTeacher.html" %}
+    {% else %}
+        {% include "./classroomHeaderStudent.html" %}
+    {% endif %}
+
+
+{% block css %}
+{% endblock %}
+{% block body %} 
+<br>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="media flex-wrap w-100 align-items-center"> 
+                        <div class="media-body ml-3" > <a data-abc="true">{{post.user1}}</a>
+                        </div>
+                        <div class="text-muted small ml-3">
+                            <div>Date and Time Of Post :</div>
+                            <div><strong>{{post.timestamp}}</strong></div>
+                        </div>
+                    </div>
+                </div>         
+                <div class="card-body">
+                    <p>{{post.post_content}}</p>
+                </div>
+                <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
+
+                    <div class="px-4 pt-3"> <button type="button" class="btn btn-primary" data-target="#reply" data-toggle="modal"><i
+                                class="ion ion-md-create"></i>&nbsp; Reply</button> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% for reply in replies %}
+<br>
+<div class="container">
+<div class="media">
+    
+    <div class="media-body">
+      <h4 class="mt-0">{{reply.user}}	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;  <span><small style="font-size: 13px;">({{reply.timestamp}})</small></span></h4>   
+      <h5>{{reply.reply_content}}</h5>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<!-- Modal -->
+<div class="modal fade" id="reply" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="modal-body">
+          <form action="{% url 'discussion' class.classTeacherMail post.post_id %}" method="POST"> {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Post Your Solution Here</label>
+              <input type="hidden" name="post_id" value="{{post.id}}">
+              <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+            </div>
+          </div>
+          {% else %}
+          <h3>Please Login first to post a reply</h3>
+          {% endif %}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Post Solution</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block js %}
+<script {% if alert %} alert('Your Reply has been posted successfully!!'); document.location = "/" {% endif %}></script>
+{% endblock %}
+
+
+<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+<script src = "{% static 'js/header.js' %}"></script>
+
+</body>
+</html>

@@ -1,6 +1,8 @@
 from django import forms
 from django.forms.widgets import NumberInput # for displaying calendar
 
+from .models import VideoTest
+
 # form for creating class using form api
 class CreateClassRoom(forms.Form):
     class_Name = forms.CharField(max_length=100, required=True)
@@ -62,4 +64,40 @@ class Question(forms.Form):
                                 widget=forms.TextInput(attrs={'placeholder': 'Ask Me Anything',
                                                                'class': 'form-control'}))
 
+
+# for video upload
+
+
+class VideoForm(forms.ModelForm):
+    class Meta:
+        model= VideoTest
+        fields= ["name", "videofile"]
+
+
+
+# form for creating assignment using Forms api
+class AddVideoForm(forms.Form):
+    title = forms.CharField(max_length=254, widget=forms.TextInput(
+        attrs={
+        'class':'form-control',
+        }
+    ))
+    description = forms.CharField(max_length=400, required=False,widget=forms.TextInput(
+        attrs={
+            'class':'form-control',
+            }
+    ))
+    
+    videoFile = forms.FileField(max_length=200, widget=forms.ClearableFileInput(
+        attrs={
+        'class':'form-control-file',
+        }
+    ))
+
+class AddQuestionsForm(forms.Form):
+    excel_File = forms.FileField(max_length=200, required=True, widget=forms.ClearableFileInput(
+        attrs={
+        'class':'form-control-file',
+        }
+    ))
 

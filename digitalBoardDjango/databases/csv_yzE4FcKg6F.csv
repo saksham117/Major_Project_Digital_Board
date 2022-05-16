@@ -1,0 +1,51 @@
+Question,Answer
+What is a Database?,A prearranged collection of figures known as data is called database.
+What is dbms?,Database Management Systems (DBMS) are applications designed especially which enable user interaction with other applications.
+What are the various kinds of interactions catered by dbms?,"The various kind of interactions catered by DBMS are:
+
+Data definition
+Update
+Retrieval
+Administration"
+In how many parts database technology’s development is segregated into?,"The development of database technology is divided into:
+
+Structure or data model
+Navigational model
+SQL/ relational model"
+Who proposed the relational model?,Edgar F. Codd proposed the relational model in 1970.
+What are the features of Database language?,"A database language may also incorporate features like:
+DBMS-specific Configuration and management of storage engine
+Computations to modification of query results by computations, like summing, counting, averaging, grouping, sorting and cross-referencing Constraint enforcement Application Programming Interface"
+What do database languages do?,"As special-purpose languages, they have:
+
+Data definition language
+Data manipulation language
+Query language"
+What is a database model?,"A data model determining fundamentally how data can be stored, manipulated and organised and the structure of the database logically is called database model."
+What is SQL?,Structured Query Language (SQL) being ANSI standard language updates database and commands for accessing.
+What are the various relationships of database?,"The various relationships of database are:
+
+One-to-one: Single table having drawn relationship with another table having similar kind of columns.
+One-to-many: Two tables having primary and foreign key relation.
+Many-to-many: Junction table having many tables related to many tables."
+What is Normalization?,Organized data void of inconsistent dependency and redundancy within a database is called normalization.
+What are the advantages of normalizing database?,"Advantages of normalizing database are:
+
+No duplicate entries
+Saves storage space
+Boasts the query performances."
+What is Denormalization?,"Boosting up database performance, adding of redundant data which in turn helps rid of complex data is called denormalization."
+What is DDL and DML?,"Managing properties and attributes of database is called Data Definition Language(DDL).
+
+Manipulating data in a database such as inserting, updating, deleting is defined as Data Manipulation Language. (DML)"
+What are some commands of DDL?,"CREATE:
+Create is used in the CREATE TABLE statement.                                                                                                                                                      ALTER:
+It helps in modification of an existing object of database.                                                                                                           DROP:
+It destroys an existing database, index, table or view. "
+What is Union All operator and Union?,Full recordings of two tables is Union All operator.A distinct recording of two tables is Union.
+What is cursor?,A database object which helps in manipulating data row by row representing a result set is called cursor.
+What are some types of cursor?,"The types of cursor are:
+
+Implicit cursor: Declared automatically as soon as the execution of SQL takes place without the awareness of the user.
+Explicit cursor: Defined by PL/ SQL which handles query in more than one row.                                                                                                                                                                           "
+What is sub-query?,A query contained by a query is called Sub-query.What 

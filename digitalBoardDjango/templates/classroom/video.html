@@ -37,8 +37,12 @@
     {% endif %}
         
     <div class="flex-container">
-        <div class = "video_container">
-            {% video video.video 'medium' %}
+        <div class = "video_container" style="position:relative; top:-30px;">
+            <video width='70%' height="120%" controls>
+                <source src='{{ lecture.videoFile.url }}' type='video/mp4'>
+                Your browser does not support the video tag.
+            </video>
+        
         </div>
 
         <div class = "chatbot_container">

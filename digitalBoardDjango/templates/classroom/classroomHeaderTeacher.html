@@ -14,19 +14,23 @@
             </li>
 
             <li class="nav-item ">
-                <a class="nav-link" href="{% url 'viewvideos' class.classTeacherMail  %}"><i class="fas fa-play-circle"></i><span class="nav-text">Videos</span></a>
+                <a class="nav-link" href="{% url 'viewvideos' class.classTeacherMail %}"><i class="fas fa-play-circle"></i><span class="nav-text">Videos</span></a>
             </li>
 
 
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'classroomcontent' class.classTeacherMail %}"><i class="fas fa-book"></i><span class="nav-text">Assignments</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'forum' class.classTeacherMail %}"><i class="fas fa-comments"></i>Discussion</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'addvideo' class.classTeacherMail %}"><i class="fas fa-upload"></i><span class="nav-text">Add Video</span></a>
+            </li>
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'createassignment' class.classTeacherMail %}"><i class="fas fa-plus"></i><span class="nav-text">Create</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'aboutus' %}"><i class="fas fa-info-circle"></i><span class="nav-text">About Us</span></a>
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i><span class="nav-text">Logout</span></a>
             </li>

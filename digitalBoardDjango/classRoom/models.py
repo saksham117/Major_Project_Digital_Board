@@ -6,6 +6,10 @@ from datetime import date
 from django.db import models
 from  embed_video.fields  import  EmbedVideoField
 
+# for forum
+from django.contrib.auth.models import User
+from django.utils.timezone import now
+
 
 # the field classTeacherMail is a primary key and is formed by concatenating className with
 # email id of teacher who created it
@@ -74,3 +78,51 @@ class VideoLectures(models.Model):
     link = models.URLField()
     classroom = models.ForeignKey(Classroom, null=True, on_delete=models.SET_NULL)
     video = EmbedVideoField()
+
+
+
+# here by using upload_to='videos/' creates a subdirectory in aws bucket
+# this is very very helpful
+class VideoTest(models.Model):
+    name= models.CharField(max_length=500)
+    videofile= models.FileField(upload_to='videos/', null=True, verbose_name="")
+
+    def __str__(self):
+        return self.name + ": " + str(self.videofile)
+
+
+class Lectures(models.Model):
+    """ List of Assignments """
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True)
+    videoCode = models.CharField(max_length=10)
+    videoFile= models.FileField(upload_to='videos/', null=True, verbose_name="")
+    classroom = models.ForeignKey(Classroom, null=True, on_delete=models.SET_NULL)
+    excelFile = models.FileField(max_length=200, null = True)
+    excelFilePath = models.CharField(max_length = 700, null = True)
+
+class VideoCodes(models.Model):
+    """ List of Assignmnet Codes used so far"""
+    videoCode = models.CharField(max_length=10, unique=True)
+
+
+#discussion forum classes
+class Post(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    post_id = models.CharField(max_length=10)
+    post_content = models.CharField(max_length=5000)
+    timestamp= models.DateTimeField(default=now)
+    classroom = models.ForeignKey(Classroom, null=True, on_delete=models.SET_NULL)
+    
+class Reply(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    reply_id = models.AutoField
+    reply_content = models.CharField(max_length=5000) 
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, default='')
+    timestamp= models.DateTimeField(default=now)
+    classroom = models.ForeignKey(Classroom, null=True, on_delete=models.SET_NULL)
+
+class PostIds(models.Model):
+    """ List of Assignmnet Codes used so far"""
+    post_id = models.CharField(max_length=10, unique=True)
+    

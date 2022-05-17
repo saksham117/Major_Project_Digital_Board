@@ -1,0 +1,19 @@
+﻿Question,Answer
+What is black-box testing?,"It is a testing strategy based solely on requirements and specifications. In this strategy, it requires no knowledge of internal paths, structures, or implementation of the software being tested."
+What is white-box testing?,"It is a testing strategy based on internal paths, code structures, and implementation of the software being tested. White box testing generally requires detailed programming skills."
+What is gray-box tetsing?,It is a strategy for software debugging in which the tester has limited knowledge of the internal details of the program.
+What is unit testing?,"A unit test is a way of testing a unit - the smallest piece of code that can be logically isolated in a system. In most programming languages, that is a function, a subroutine, a method or property. The isolated part of the definition is important."
+What is integration testing?,Integration Testing is defined as a type of testing where software modules are integrated logically and tested as a group.
+What is system testing?,System testing is defined as testing of a complete and fully integrated software product. This testing falls in black-box testing wherein knowledge of the inner design of the code is not a pre-requisite and is done by the testing team.
+What is acceptance Testing?,Acceptance Testing is the last phase of software testing performed after System Testing and before making the system available for actual use.
+What is verification?,"t is a static analysis technique. Here, testing is done without executing the code. Examples include – Reviews, Inspection, and walkthrough."
+What is validation?,It is a dynamic analysis technique where testing is done by executing the code. Examples include functional and non-functional testing techniques.
+What is usability testing?,"It is a testing methodology where the end customer is asked to use the software to see if the product is easy to use, to see the customer’s perception and task time. An accurate way to finalize the customer point of view for usability is by using prototype or mock-up software during the initial stages.
+"
+What is XPath?,"XPath also called as XML Path is a language to query XML documents. It is an important strategy to locate elements in selenium. It consists of a path expression along with some conditions. Here, you can easily write XPath script/query to locate any element in the webpage. It is designed to allow the navigation of XML documents, with the purpose of selecting individual elements, attributes, or some other part of an XML document for specific processing. It also produces reliable locators."
+What is statement coverage?,It ensures that each line of source code has been executed and tested.
+What is decision coverage?,It assures that every decision (true/false) in the source code has been executed and tested.
+What is path coverage?,Here we ensure that every possible route through a given part of the code is executed and tested.
+When should I use Selenium Grid?,"Selenium Grid can be used to execute same or different test scripts on multiple platforms and browsers concurrently so as to achieve distributed test execution, testing under different environments and saving execution time remarkably."
+What is regression testing?, It is defined as a type of software testing to confirm that a recent code change has not adversely affected existing features.
+What is confirmation testing?,"When a test fails because of the defect, the defect is reported. Then a new version of the software is submitted whose defect is fixed. This is called as confirmation testing or re-testing."

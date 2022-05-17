@@ -1,0 +1,21 @@
+﻿Question,Answer
+What are the key features of python?,"Interpreted,Dynamically-typed,Object-oriented,Concise and simple,Free,Has a large community"
+What are negative indices? ,"A negative index, unlike a positive one, begins searching from the right."
+Is Python case sensitive?,"A language is case-sensitive if it distinguishes between identifiers like myname and Myname. In other words, it cares about case- lowercase or uppercase. "
+How would you convert a string into lowercase?,We use the lower() method for this.
+What is the pass statement in Python?,"There may be times in our code when we haven’t decided what to do yet, but we must type something for it to be syntactically correct. In such a case, we use the pass statement."
+What is slicing?,"Slicing is a technique that allows us to retrieve only a part of a list, tuple, or string. For this, we use the slicing operator []."
+How would you declare comment in Python?,"Unlike languages like C++, Python does not have multiline comments. All it has is octothorpe (#). Anything following a hash is considered a comment, and the interpreter ignores it."
+How will you check if all characters in a string are alphanumeric?,"For this, we use the method isalnum()."
+How do you reverse a list?,Using the reverse() method.
+Why do we need break and continue statements in python?,Both break and continue are statements that control flow in Python loops. break stops the current loop from executing further and transfers the control to the next block. continue jumps to the next iteration of the loop without exhausting it.
+Will the do-while loop work if you don’t end it with a semicolon?,"Python does not support an intrinsic do-while loop. Secondly, to terminate do-while loops is a necessity for languages like C++."
+What data types does Python support?,"Python provides us with five kinds of data types:1. Numbers, 2. Strings, 3. Lists, 4. Tuple, 5. Dictionary"
+How would you convert a string into an int in Python?,"If a string contains only numerical characters, you can convert it into an integer using the int() function."
+How do you take input in Python?,"For taking input from the user, we have the function input(). The input() function takes, as an argument, the text to be displayed for the task."
+What is a function?,It is the named section of code that performs a specific task. This typically involves taking some input and returning an output.
+How do you calculate the length of a string?,We call the function len() on the string we want to calculate the length of.
+How do you get all values from a Python dictionary?,"To get all keys from a dictionary, we make a call to the keys() method. Similarly, for values, we use the method values()."
+How to toggle case for python string?,We have the swapcase() method from the str class to do just that.
+What is control flow statement,"A Python program usually starts to execute from the first line. From there, it moves through each statement just once and as soon as it’s done with the last statement, it transactions the program. However, sometimes, we may want to take a more twisted path through the code. Control flow statements let us disturb the normal execution flow of a program and bend it to our will."
+Number of arguments of the range function?,The range() function in Python can take up to 3 arguments. 

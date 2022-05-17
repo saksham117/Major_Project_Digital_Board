@@ -1,0 +1,24 @@
+﻿Question,Answer
+Which is a reserved word in the Java programming language?,Native is a reserved word in the Java programming language
+Which is a valid keyword in java?,Interface is a valid keyword in java. 
+What is JDK?,It stands for Java Development Kit.
+What is JRE?,It stands for Java Runtime Environment.
+What is JVM?,It stands for Java Virtual Machine.
+Why Java is platform independent?,Java is called platform independent because of its byte codes which can run on any system irrespective of its underlying operating system.
+Why Java is not 100% Object-oriented?,"Java is not 100% Object-oriented because it makes use of eight primitive data types such as boolean, byte, char, int, float, double, long, short which are not objects."
+What are wrapper classes in Java?,"Wrapper classes convert the Java primitives into the reference types (objects). Every primitive data type has a class dedicated to it. These are known as wrapper classes because they “wrap” the primitive data type into an object of that class. Refer to the below image which displays different primitive type, wrapper class and constructor argument."
+What is singleton class in Java and how can we make a class singleton?,"Singleton class is a class whose only one instance can be created at any given time, in one JVM. A class can be made singleton by making its constructor private."
+How is the creation of a String using new() different from that of a literal?,"When we create a string using new(), a new object is created. Whereas, if we create a string using the string literal syntax, it may return an already existing object with the same name.
+"
+Why is synchronization necessary? ,Java allows multiple threads to execute. They may be accessing the same variable or object. Synchronization helps to execute threads one after another.
+Why pointers are not used in Java?,"Java doesn’t use pointers because they are unsafe and increases the complexity of the program. Since, Java is known for its simplicity of code, adding the concept of pointers will be contradicting. Moreover, since JVM is responsible for implicit memory allocation, thus in order to avoid direct access to memory by the user,  pointers are discouraged in Java.
+"
+What are access modifiers in Java?,"In Java, access modifiers are special keywords which are used to restrict the access of a class, constructor, data member and method in another class. Java supports four types of access modifiers:
+
+Default
+Private
+Protected
+Public"
+What is final keyword in Java?,final is a special keyword in Java that is used as a non-access modifier.
+What is this() method is java?,this() represents the current instance of a class.
+What is super() method in java?,super() represents the current instance of a parent/base class.

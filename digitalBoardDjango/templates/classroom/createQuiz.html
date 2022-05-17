@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Add Questions</title>
+    <title>Create Quiz</title>
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="stylesheet" href="{% static 'css/home/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/classroom/assignmentForm.css' %}">
-    <link rel="stylesheet" href="{% static 'css/classroom/messages.css' %}">
-
 
 
 </head>
@@ -31,14 +29,15 @@
         {% include "./classroomHeaderStudent.html" %}
     {% endif %}
         <div class="flex-container">
-            <div class="form-group cardImage" id="submitAssignmentCard">
+            <div class="form-group cardImage">
                 <img src='https://media.istockphoto.com/vectors/vector-isometric-scene-with-large-books-glasses-letter-a-and-reading-vector-id1163932370?k=20&m=1163932370&s=612x612&w=0&h=qMUzuL2Roa6NSE5YwwTuvc2Ry1Ondks5GcAxVVjoUzw=' alt=''>
-                <h1>Add Questions</h1>
+                <h1>Add Quiz</h1>
+
                
                 
             </div>
             <div class="form-group ">
-                <form action="" method="POST" enctype="multipart/form-data" id="submitAssignmentForm">
+                <form action="" method="POST">
                     {% csrf_token %}
                     {{form.non_field_errors}}
 
@@ -57,38 +56,13 @@
                             </span>
                         {% endfor %}
                     {% endfor %}
-                    <br>
-                    <button type="submit" class="btn btn-primary" id="submitAssignmentButton">Add Questions</button>
-                    <br>
-                    <br>
-
                     
-                    <div class="show_files">
-                        {% if videoLecture.excelFile %}
-                            <i class="fas fa-file-alt"></i> <a href="{{ videoLecture.excelFile.url }}" target="_blank"> Your Questions</a>
-                        {% else %}
-                            <i class="fas fa-file-alt"></i> No File Uploaded So far!
-                        {% endif %}
-                    </div>
-
+                    <button type="submit" class="btn btn-primary">Add Quiz</button>
+                    
                 </form>
-
-                <a href= "{% url 'downloadsample'  %} ">
-                    <button type="submit" class="btn btn-info" id="submitAssignmentButton" style= "margin-top: -35%; background: #17a2b8;">Download Sample CSV
-                    </button>
-                </a>
-                
             </div>
         </div>
         
-        {% if messages %}
-            {% for message in messages %}
-                <div class="success-message" id ="message-submit-assignment">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                    {{message}}
-                </div>
-            {% endfor %}
-        {% endif %}
             
         
             

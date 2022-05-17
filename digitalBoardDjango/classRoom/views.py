@@ -4,9 +4,9 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, CreateView
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from .forms import CreateClassRoom, JoinClassRoom, CreateAssignmentForm, SubmitAssignmentForm, Question, AddVideoForm, AddQuestionsForm
+from .forms import CreateClassRoom, JoinClassRoom, CreateAssignmentForm, SubmitAssignmentForm, Question, AddVideoForm, AddQuestionsForm, CreateQuizForm
 
-from .models import Classroom, StudentClassroom, TeacherClassroom, ClassCodes, AssignmentCodes, CreateAssignment, SubmitAssignment, VideoLectures, Lectures, VideoCodes, Post, PostIds, Reply
+from .models import Classroom, StudentClassroom, TeacherClassroom, ClassCodes, AssignmentCodes, CreateAssignment, SubmitAssignment, VideoLectures, Lectures, VideoCodes, Post, PostIds, Reply, CreateQuiz, QuizCodes
 from django.contrib import messages
 # for sending email to grant teaccher access
 from django.conf import settings
@@ -201,6 +201,8 @@ def viewClassRoom(request, classId):
             classroom = Classroom.objects.get(classTeacherMail = classId)
             
             listOfAssignments = None #stores a list of all the assignments
+            listOfQuizzes = None
+
             try:
                 # fetch all the classrooms the teacher teaches
                 assignments = classroom.createassignment_set.all()
@@ -208,10 +210,20 @@ def viewClassRoom(request, classId):
                 listOfAssignments = list(assignments)
             except:
                 print("No assignments exist yet")
+
+            try:
+                # fetch all the classrooms the teacher teaches
+                quizzes = classroom.createquiz_set.all()
+                # print(assignments)
+                listOfQuizzes = list(quizzes)
+            except:
+                print("No quizzes exist yet")
+
             
             context = {
                 'class' : classroom,
                 'assignments' : listOfAssignments,
+                'quizzes' : listOfQuizzes,
             }
             return render(request, 'classroom/classroomContent.html', context)
         
@@ -692,29 +704,49 @@ def gpt_getter(videoId):
     """This is where our database will be inserted """
 
     currentDir = os.getcwd()
-    csvFilename = f"csv_{videoId}.csv"
-    currentFileCSV = currentDir +"//" + "databases" + "//" + csvFilename
 
-    df = pd.read_csv(currentFileCSV)
-    print(df.columns)
-    # print("Given Dataframe :\n", df)
-
-    # print("\nIterating over rows using index attribute :\n")
     
-    # iterate through each row and select 
-    # 'Name' and 'Stream' column respectively.
-    for ind in df.index:
-        #  print(df['Question'][ind], df['Answer'][ind]) #for testing
-        question = str(df['Question'][ind])
-        answer = str(df['Answer'][ind])
-        gpt.add_example(Example(question, answer))
+    try:
+        csvFilename = f"csv_{videoId}.csv"
+        currentFileCSV = currentDir +"//" + "databases" + "//" + csvFilename
+        df = pd.read_csv(currentFileCSV)
+        print(currentFileCSV)
+        print(df.columns)
+        print("Given Dataframe :\n", df)
 
-    # returns all the examples that we have fed to the gpt3 model
-    # all_examples = gpt.get_all_examples()
-    # print(all_examples)
-    # print('Science function called')
-    return gpt 
+        for ind in df.index:
+            #  print(df['Question'][ind], df['Answer'][ind]) #for testing
+            question = str(df['Question'][ind])
+            answer = str(df['Answer'][ind])
+            gpt.add_example(Example(question, answer))
 
+        # returns all the examples that we have fed to the gpt3 model
+        # all_examples = gpt.get_all_examples()
+        # print(all_examples)
+        # print('Science function called')
+        return gpt 
+
+
+    except: 
+        print("Will be using sample csv.")
+        currentFileCSV = currentDir +"//" + "databases" + "//" + "sample.csv"
+        df = pd.read_csv(currentFileCSV, encoding='cp1252')
+        print(currentFileCSV)
+        print(df.columns)
+        print("Given Dataframe :\n", df)
+
+        for ind in df.index:
+            #  print(df['Question'][ind], df['Answer'][ind]) #for testing
+            question = str(df['Question'][ind])
+            answer = str(df['Answer'][ind])
+            gpt.add_example(Example(question, answer))
+
+        # returns all the examples that we have fed to the gpt3 model
+        # all_examples = gpt.get_all_examples()
+        # print(all_examples)
+        # print('Science function called')
+        return gpt
+   
 
 
 # discussion portal
@@ -843,3 +875,69 @@ def discussion(request, classId, postId):
             }
 
         return render(request, "classroom/discussion.html", context)
+
+
+
+# creating quizzes
+def createQuiz(request, classId):
+    if request.user.is_authenticated and request.user.is_staff:
+        if request.method == 'POST':
+            fm = CreateQuizForm(request.POST)
+            if fm.is_valid():
+                # print(fm)
+
+                # filtering out the data received from the form
+                title = fm.cleaned_data['title']
+                quizDate = fm.cleaned_data['date_of_quiz']
+                quiz = fm.cleaned_data['quiz']
+                pinned = fm.cleaned_data['pin_item']
+                classroom = Classroom.objects.get(classTeacherMail = classId)
+                quizCode = getClassCode(10)
+
+                if request.user.email != classroom.teacher:
+                    messages.error(request, 'You do not have the right permissions. You are a student in this class.')
+                    return redirect('classroomcontent', classId=classId)
+
+                
+                
+                # checking if classCode generated is unique or not
+                # keep on generating a new classcode till we get a unique classcode
+                try:
+                    quizCode = QuizCodes.objects.get(quizCode = quizCode)
+                    try:
+                        while(QuizCodes.objects.get(quizCode = quizCode)):
+                            quizCode = getClassCode(10)
+                    except:
+                        print("Yayy, we got a unique class code")
+                except:
+                    print("Yayy, we got a unique class code")
+
+                # saving it to the classCodes database
+                quizCodesObj = QuizCodes(quizCode = quizCode)
+                quizCodesObj.save()
+                
+                # making an entry into the database of classrooms
+                createQuizObj = CreateQuiz(
+                                  title = title,
+                                  quizDate = quizDate,
+                                  quiz = quiz,
+                                  quizCode = quizCode,
+                                  classroom = classroom,
+                                  pinned = pinned,
+                                  )
+                createQuizObj.save()
+                messages.success(request, 'Quiz Created')
+                return redirect('classroomcontent', classId=classId)
+            
+        else: # when the request is get request
+            # print(classId)
+            # print(type(classId))
+            classroom = Classroom.objects.get(classTeacherMail = classId)
+            fm = CreateQuizForm()
+            context = {
+                'class' : classroom,
+                'form' : fm,
+            }
+            return render(request, 'classroom/createQuiz.html', context)
+    else: # when user is unauthenticated or not staff
+        return HttpResponseRedirect('/')

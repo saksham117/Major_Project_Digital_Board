@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Classroom, StudentClassroom, TeacherClassroom, ClassCodes, CreateAssignment, AssignmentCodes, SubmitAssignment, VideoLectures, VideoTest, Lectures, VideoCodes, Post, Reply, PostIds
+from .models import Classroom, StudentClassroom, TeacherClassroom, ClassCodes, CreateAssignment, AssignmentCodes, SubmitAssignment, VideoLectures, VideoTest, Lectures, VideoCodes, Post, Reply, PostIds, CreateQuiz, QuizCodes
 
 
 # Register your models here.
@@ -61,6 +61,12 @@ class ReplyAdmin(admin.ModelAdmin):
 class PostIdsAdmin(admin.ModelAdmin):
     list_display = ('post_id',)
 
+class CreateQuizAdmin(admin.ModelAdmin):
+    list_display = ('title', 'quizDate', 'quizCode', 'quiz', 'classroom', 'pinned',)
+
+class QuizCodesAdmin(admin.ModelAdmin):
+    list_display = ('quizCode',)
+
 
 
 # registering the models so that we can access them in admin panel
@@ -81,6 +87,11 @@ admin.site.register(VideoCodes, VideoCodesAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Reply, ReplyAdmin)
 admin.site.register(PostIds, PostIdsAdmin)
+
+admin.site.register(CreateQuiz, CreateQuizAdmin)
+admin.site.register(QuizCodes, QuizCodesAdmin)
+
+
 
 
 

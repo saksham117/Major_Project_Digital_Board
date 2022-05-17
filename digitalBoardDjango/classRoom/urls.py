@@ -29,6 +29,10 @@ urlpatterns = [
     # for forum
     path('classroomcontent/<str:classId>/forum/', views.forum, name='forum'),
 
+    # for quiz
+    path('classroomcontent/<str:classId>/createquiz/', views.createQuiz, name='createquiz'),
+
+
 
 
 

@@ -107,20 +107,60 @@
                     {% endfor %}
 
 
+                    {% for quiz in quizzes %}
+                        <div class="mb-30 col-md-6 col-lg-4">
+                            <div class="card">
+                                <img class="card-icon" src="{% static 'images/classroom/assignment.png' %}" alt="monitoring" >
+                                <h3 class="card-title">{{ quiz.title }}</h3> 
+                                <h4 class="card-title"><i class="fas fa-calendar-alt"></i>Quiz Date: {{quiz.quizDate}}</h4>
+                                <p class="card-text">
+                                    
+                                    
+                                </p>
+
+                                <a href="{{quiz.quiz}}">
+                                    <button type="button" class="btn btn-info submissionButton">Go To Quiz</button>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
                 {% else %}
-                </div>
-                </div>
-                    <section class="banner">
-                        <div class="container">
-                        <div class="banner-text">
-                            <h1>Yayy! No Assignments</h1>
-                            <p> 
-                                The teacher hasn't uploaded any assignments so far!
-                            </p>
-                        </div>
-                        </div>
-                        <img class="banner-image" id = "joinClassImage" src="https://preview.ibb.co/bMi5Y6/banner_img.png" alt="monitoring" >
-                    </section>
+
+                    {% if quizzes %}
+
+                        {% for quiz in quizzes %}
+                            <div class="mb-30 col-md-6 col-lg-4">
+                                <div class="card">
+                                    <img class="card-icon" src="{% static 'images/classroom/assignment.png' %}" alt="monitoring" >
+                                    <h3 class="card-title">{{ quiz.title }}</h3> 
+                                    <h4 class="card-title"><i class="fas fa-calendar-alt"></i>Quiz Date: {{quiz.quizDate}}</h4>
+                                    <a href="{{quiz.quiz}}">
+                                        <button type="button" class="btn btn-info submissionButton">Go To Quiz</button>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                    {% else %}
+
+                    </div>
+                    </div>
+                        <section class="banner">
+                            <div class="container">
+                            <div class="banner-text">
+                                <h1>Yayy! No Assignments</h1>
+                                <p> 
+                                    The teacher hasn't uploaded any assignments so far!
+                                </p>
+                            </div>
+                            </div>
+                            <img class="banner-image" id = "joinClassImage" src="https://preview.ibb.co/bMi5Y6/banner_img.png" alt="monitoring" >
+                        </section>
+
+                    {% endif %} 
+
                 {% endif %}
               
             </div>

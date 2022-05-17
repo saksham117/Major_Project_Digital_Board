@@ -125,4 +125,17 @@ class Reply(models.Model):
 class PostIds(models.Model):
     """ List of Assignmnet Codes used so far"""
     post_id = models.CharField(max_length=10, unique=True)
-    
+
+class CreateQuiz(models.Model):
+    """ List of Assignments """
+    title = models.CharField(max_length=100)
+    quizDate = models.DateField()
+    quizCode = models.CharField(max_length=10)
+    quiz = models.URLField()
+    classroom = models.ForeignKey(Classroom, null=True, on_delete=models.SET_NULL)
+    pinned = models.BooleanField(default=False, blank = True)
+
+
+class QuizCodes(models.Model):
+    """ List of Assignmnet Codes used so far"""
+    quizCode = models.CharField(max_length=10, unique=True)

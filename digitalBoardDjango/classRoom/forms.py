@@ -101,3 +101,22 @@ class AddQuestionsForm(forms.Form):
         }
     ))
 
+class CreateQuizForm(forms.Form):
+    title = forms.CharField(max_length=254, widget=forms.TextInput(
+        attrs={
+        'class':'form-control',
+        }
+    ))
+    date_of_quiz = forms.DateField(widget=NumberInput(
+        attrs={
+            'type': 'date',
+            'class':'form-control',
+            }
+    ))
+    quiz = forms.URLField(widget=forms.URLInput(
+        attrs={
+        'class':'form-control',
+        }
+    ))
+
+    pin_item = forms.BooleanField(required=False, widget=forms.CheckboxInput())
